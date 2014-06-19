@@ -1,4 +1,4 @@
-# nginx, etcd registration, confd and supervisord on trusty
+# nginx, etcd registration and supervisord on trusty
 FROM markusma/nginx:trusty
 MAINTAINER Markus Mattinen <docker@gamma.fi>
 
