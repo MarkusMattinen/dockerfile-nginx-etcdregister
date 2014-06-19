@@ -8,6 +8,6 @@ fi
 
 while true
 do
-    curl -sSL --cacert /usr/local/etc/ssl/private/etcd-client/ca.crt --cert /usr/local/etc/ssl/private/etcd-client/etcd-client.host.crt --key /usr/local/etc/ssl/private/etcd-client/etcd-client.host.key -XPUT -d "ttl=10" -d "value=$(ip addr show dev eth0 | grep " inet " | awk '{print $2}' | cut -d'/' -f 1):5000" https://$ETCD_HOST/v2/keys/nginx_proxy/$VHOST/$(hostname)
+    curl -sSL --cacert /usr/local/etc/ssl/private/etcd-client/ca.crt --cert /usr/local/etc/ssl/private/etcd-client/etcd-client.host.crt --key /usr/local/etc/ssl/private/etcd-client/etcd-client.host.key -XPUT -d "ttl=10" -d "value=$(ip addr show dev eth0 | grep " inet " | awk '{print $2}' | cut -d'/' -f 1):5000" https://$(ip route show dev eth0 | grep default | awk '{print $3}')/v2/keys/nginx_proxy/$VHOST/$(hostname)
     sleep 5
 done
