@@ -8,6 +8,6 @@ fi
 
 while true
 do
-    curl -sSL -d "ttl=10" -d "value=$(ip addr show dev eth0 | grep " inet " | awk '{print $2}' | cut -d'/' -f 1):5000" http://$ETCD_PORT_4001_TCP_ADDR:$ETCD_PORT_4001_TCP_PORT/v2/keys/nginx_proxy/$VHOST/$(hostname)
+    curl -sSL -o /dev/null -XPOST -d "ttl=10" -d "value=$(ip addr show dev eth0 | grep " inet " | awk '{print $2}' | cut -d'/' -f 1):5000" http://$ETCD_PORT_4001_TCP_ADDR:$ETCD_PORT_4001_TCP_PORT/v2/keys/nginx_proxy/$VHOST
     sleep 5
 done
