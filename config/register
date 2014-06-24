@@ -6,8 +6,10 @@ then
     exit 1
 fi
 
+UUID=$(cat /proc/sys/kernel/random/uuid)
+
 while true
 do
-    curl -sSL -o /dev/null -XPOST -d "ttl=10" -d "value=$(ip addr show dev eth0 | grep " inet " | awk '{print $2}' | cut -d'/' -f 1):5000" http://$ETCD_PORT_4001_TCP_ADDR:$ETCD_PORT_4001_TCP_PORT/v2/keys/nginx_proxy/$VHOST
+    curl -sSL -o /dev/null -XPUT -d "ttl=10" -d "value=$(ip addr show dev eth0 | grep " inet " | awk '{print $2}' | cut -d'/' -f 1):5000" http://$ETCD_PORT_4001_TCP_ADDR:$ETCD_PORT_4001_TCP_PORT/v2/keys/nginx_proxy/$VHOST/$UUID
     sleep 5
 done
