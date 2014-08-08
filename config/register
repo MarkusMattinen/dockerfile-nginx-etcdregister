@@ -6,6 +6,11 @@ then
     exit 1
 fi
 
+if [ -z "$ETCD_PORT_4001_TCP_ADDR" ]; then
+    echo etcd container not linked, exiting...
+    exit 1
+fi
+
 UUID=$(cat /proc/sys/kernel/random/uuid)
 
 while true
