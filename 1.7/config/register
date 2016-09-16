@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ -z "$VHOST" ]
+then
+    echo VHOST is not set, exiting...
+    exit 1
+fi
+
+if [ -z "$ETCD_PORT_4001_TCP_ADDR" ]; then
+    echo etcd container not linked, exiting...
+    exit 1
+fi
+
+UUID=$(cat /proc/sys/kernel/random/uuid)
+
+while true
+do
+
+    if [ $(echo $VHOST | egrep -c "^www\.") -gt 0 ] > /dev/null
+    then
+        curl -sSL -o /dev/null -XPUT -d "ttl=10" -d "value=$(ip addr show dev eth0 | grep " inet " | awk '{print $2}' | cut -d'/' -f 1):5000" http://$ETCD_PORT_4001_TCP_ADDR:$ETCD_PORT_4001_TCP_PORT/v2/keys/nginx_proxy/$(echo $VHOST | sed "s/www\.//")/$UUID
+        curl -sSL -o /dev/null -XPUT -d "ttl=10" -d "value=true" http://$ETCD_PORT_4001_TCP_ADDR:$ETCD_PORT_4001_TCP_PORT/v2/keys/nginx_www_redirect_domains/$(echo $VHOST | sed "s/www\.//")
+    else
+        curl -sSL -o /dev/null -XPUT -d "ttl=10" -d "value=$(ip addr show dev eth0 | grep " inet " | awk '{print $2}' | cut -d'/' -f 1):5000" http://$ETCD_PORT_4001_TCP_ADDR:$ETCD_PORT_4001_TCP_PORT/v2/keys/nginx_proxy/$VHOST/$UUID
+    fi
+    sleep 5
+done
