@@ -1,11 +1,11 @@
 # Nginx with background script to register vhost in etcd
-FROM markusma/nginx:1.16-ubuntu-bionic-s6
+FROM markusma/nginx:1.20-ubuntu-bionic
 
 # ETCD_VERSION cannot be used because etcd reads it
-ENV DOCKERFILE_ETCD_VERSION=3.4.0
+ENV DOCKERFILE_ETCD_VERSION=3.5.1
 
 RUN cd /tmp \
- && curl -LO https://github.com/coreos/etcd/releases/download/v${DOCKERFILE_ETCD_VERSION}/etcd-v${DOCKERFILE_ETCD_VERSION}-linux-amd64.tar.gz \
+ && curl -LO https://github.com/etcd-io/etcd/releases/download/v${DOCKERFILE_ETCD_VERSION}/etcd-v${DOCKERFILE_ETCD_VERSION}-linux-amd64.tar.gz \
  && tar zxf etcd-v${DOCKERFILE_ETCD_VERSION}-linux-amd64.tar.gz \
  && cd etcd-v${DOCKERFILE_ETCD_VERSION}-linux-amd64 \
  && mv etcdctl /usr/local/bin/ \

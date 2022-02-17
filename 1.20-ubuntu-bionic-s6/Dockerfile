@@ -1,5 +1,5 @@
 # Nginx with background script to register vhost in etcd
-FROM markusma/nginx:1.16-ubuntu-bionic
+FROM markusma/nginx:1.20-ubuntu-bionic-s6
 
 # ETCD_VERSION cannot be used because etcd reads it
 ENV DOCKERFILE_ETCD_VERSION=3.4.0
